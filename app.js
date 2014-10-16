@@ -2,6 +2,7 @@
  * TODO Raven uses 'game' for two metaphors: Game function, and instance of Game function.
  * Let's break it into 'Game' and 'Table'.
  */
+
 var fs = require('fs'),
   express = require('express'),
   logger = require('./lib/logger').logger;
