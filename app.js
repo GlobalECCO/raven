@@ -38,7 +38,8 @@ function init(Game) {
     var CAS_HOST_FALLBACK = process.env.CAS_HOST_FALLBACK;
     var CAS_URL_FALLBACK = process.env.CAS_URL_FALLBACK || "https://" + CAS_HOST_FALLBACK + "/login";
     var SERVICE_URL = process.env.SERVICE_URL;
-    var PORT = process.env.PORT || 3000;
+    // var PORT = process.env.PORT || 3000;
+    var PORT = 80;
     var EGS_HOST = process.env.EGS_HOST || "globalecco.org";
     var EGS_PORT = process.env.EGS_PORT || 443;
     var EGS_PROTOCOL = process.env.EGS_PROTOCOL || (EGS_PORT == 443 ? 'https' : 'http')
