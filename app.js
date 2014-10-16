@@ -217,13 +217,14 @@ function init(Game) {
         return;
       }
 
-      logger.info("Got service ticket: " + serviceTicket);
+      // logger.info("Got service ticket: " + serviceTicket);
 
       // validate service ticket
       casInstance.validate(serviceTicket, function (error, status, cas_handle) {
         logger.info("Validated ticket.");
         if (error) {
-          logger.error("Error validating CAS: ", error);
+          // logger.error("Error validating CAS: ", error);
+          logger.error("Error validating CAS: ");
         }
         if (error || !status) {
           response.redirect(loginUrl);
@@ -243,7 +244,8 @@ function init(Game) {
         logger.info(cas_handle + " logged in! SessionID: " + request.cookies['express.sid']);
         getPlayerProfile(cas_handle, game_id, function (error, profile) {
 
-          logger.debug("getPlayerProfile returned: " + profile);
+          // logger.debug("getPlayerProfile returned: " + profile);
+          logger.debug("getPlayerProfile returned: ");
 
           if (error) {
             respond_with_error(response, error);
@@ -254,7 +256,8 @@ function init(Game) {
             return;
           }
           find_or_create_user(profile, request.cookies['express.sid'], function (user) {
-            logger.debug("find or create user calling back with : " + user);
+            // logger.debug("find or create user calling back with : " + user);
+            logger.debug("find or create user calling back with : ");
             callback(user);
           });
         });
@@ -429,7 +432,7 @@ function init(Game) {
         url: url,
         method: 'GET'
       };
-      logger.debug("Opts for request:", opts);
+      // logger.debug("Opts for request:", opts);
       http_request(opts, function (error, response, body) {
         if (error) {
           logger.error("Error getting gaming profile from EGS. Error: " + error);
@@ -438,12 +441,12 @@ function init(Game) {
         }
         if (response.statusCode !== 200) {
           logger.error("Error getting gaming profile from EGS. Response code: " + (response.statusCode || 'none'));
-          logger.error(body);
+          // logger.error(body);
           callback("Unable to retrieve gaming profile for " + cas_handle);
           return;
         }
 
-        logger.debug("Response from EGS: " + body);
+        logger.debug("Response from EGS: ");
         /*
          {
          "gameInstanceId": "xxx",
@@ -532,7 +535,8 @@ function init(Game) {
       game_spec.update = first_update;
 
       egs_game_response(req, res, game_spec, function () {
-        logger.debug(res);
+        logger.debug("Got game response");
+        // logger.debug(res);
       });
     };
 
@@ -552,7 +556,8 @@ function init(Game) {
 
     var playGame = function (req, res, game_id, user) {
 
-      logger.debug("Request to play game '" + game_id + "' from user:", user);
+      // logger.debug("Request to play game '" + game_id + "' from user:", user);
+      logger.debug("Request to play game '" + game_id + "' from user:");
 
       var role = req.param('role');
 
@@ -564,7 +569,8 @@ function init(Game) {
       var isRoleValid = false;
       _.each(metadata.roles, function (roleData) {
         if (roleData.slug === role) {
-          logger.debug("Role is valid: " + roleData.slug + " : " + role);
+          // logger.debug("Role is valid: " + roleData.slug + " : " + role);
+          logger.debug("Role is valid: ");
           isRoleValid = true;
         }
       });
@@ -581,15 +587,16 @@ function init(Game) {
           return;
         }
         logger.debug("Found game: " + game_id);
-        logger.debug(game);
+        // logger.debug(game);
 
         logger.debug("User:");
-        logger.debug(user);
+        // logger.debug(user);
 
         var requested_nickname = game.roles[role];
         if (user.gaming_id !== requested_nickname) {
           respond_with_error(res, "Requested game role ('" + requested_nickname + "') does not match the logged in user ('" + user.gaming_id + "').");
-          logger.debug("Requested role: " + role + ", saved handle: " + requested_nickname + ", current handle: " + user.gaming_id);
+          // logger.debug("Requested role: " + role + ", saved handle: " + requested_nickname + ", current handle: " + user.gaming_id);
+          logger.debug("Requested role: " + ", saved handle: " + requested_nickname + ", current handle: " + user.gaming_id);
           return;
         }
 
@@ -616,15 +623,19 @@ function init(Game) {
     };
 
     app.post(PREFIX + '/new', function (req, res) {
+      logger.debug("POST new")
       handleNew(req, res);
     });
     app.get(PREFIX + '/new', function (req, res) {
+      logger.debug("GET new")
       handleNew(req, res);
     });
     app.post(PREFIX + '/play', function (req, res) {
+      logger.debug("POST play")
       handlePlay(req, res);
     });
     app.get(PREFIX + '/play', function (req, res) {
+      logger.debug("GET play")
       handlePlay(req, res);
     });
 
@@ -854,12 +865,12 @@ function init(Game) {
           delete players[user.gaming_id];
           raven.broadcast('user_offline', user.gaming_id);
           logger.info(user.gaming_id + " disconnected.");
-          logger.info('connected users: ', totalUsers());
+          // logger.info('connected users: ', totalUsers());
         });
 
         logger.debug('joined table');
         logger.debug('active tables: ' + tables.length);
-        logger.info('connected users: ' + totalUsers());
+        // logger.info('connected users: ' + totalUsers());
       }
 
       return {
@@ -916,7 +927,8 @@ function init(Game) {
           }
           User.findOne({gaming_id: session.gaming_id}, function (err, user) {
             if (err || !user) {
-              logger.error("Unable to look up user by user.gaming_id '" + user.gaming_id + "': " + err);
+              // logger.error("Unable to look up user by user.gaming_id '" + user.gaming_id + "': " + err);
+              logger.error("Unable to look up user by user.gaming_id '" + user.gaming_id );
               socket.emit('error', "Unable to look up user. Try refreshing your browser.");
               return;
             }
