@@ -23,6 +23,8 @@ var _ = require('underscore'),
 
 function init(Game) {
 
+  logger.debug("Initializing game ");
+
   var me = this;
 
   this.configure = function (options) {
@@ -980,8 +982,10 @@ function init(Game) {
 
     mongoose.connect(MONGO_URL + '/lvg-' + metadata.slug, options, function (err) {
       if (err) {
+        logger.debug("database connection failure");
         throw err;
       }
+      logger.debug("database connected");
     });
 
     server.listen(PORT, function () {
