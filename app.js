@@ -241,7 +241,7 @@ function init(Game) {
         logger.info(cas_handle + " logged in! SessionID: " + request.cookies['express.sid']);
         getPlayerProfile(cas_handle, game_id, function (error, profile) {
 
-          logger.debug("getPlayerProfile returned: " + profile);
+          logger.debug("getPlayerProfile returned: " + JSON.stringify(profile);
 
           if (error) {
             respond_with_error(response, error);
@@ -965,9 +965,12 @@ function init(Game) {
 
     mongoose.connect(MONGO_URL + '/lvg-' + metadata.slug, options, function (err) {
       if (err) {
+        logger.error("DB Connection error: " + MONGO_URL +"\n" + err);
         throw err;
       }
     });
+
+    logger.error("DB Connected: " + MONGO_URL );
 
     server.listen(PORT, function () {
       logger.info("[" + new Date() + "] " + metadata.name + " listening on http://localhost:" + PORT + PREFIX);
