@@ -426,7 +426,7 @@ function init(Game) {
         return;
       }
 
-      // logger.debug("getPlayerProfile() called with cas_handle: " + cas_handle + ", and gameid: " + game_id);
+      logger.debug("getPlayerProfile() called with cas_handle: " + cas_handle + ", and gameid: " + game_id);
       var path = EGS_PROFILE_PATH + "?ver=1.0&title=" + metadata.slug + "&gid=" + encodeURIComponent(game_id) + "&email=" + encodeURIComponent(cas_handle);
 
       var auth = (EGS_USERNAME && EGS_PASSWORD) ? (encodeURIComponent(EGS_USERNAME) + ":" + EGS_PASSWORD + "@") : "";
